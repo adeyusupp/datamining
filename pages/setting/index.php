@@ -140,10 +140,62 @@ require_once('../conf/session.php');
             <!-- #Footer -->
         </aside>
         <!-- #END# Left Sidebar -->
-    </section>
-
+    </section>    
    <section class="content">
         <div class="container-fluid">
+            <!-- Nilai K-->
+            <div class="row clearfix">                
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Nilai K
+                            </h2> 
+                            <small>Update nilai K</small>                                                   
+                        </div>
+                        <div class="body">
+                            <?php
+                            //Show data from table setting
+                            $query = $conn->query("SELECT * FROM setting");                
+                            $row=$query->fetch_array();    
+                            $k2=$row['k'];
+                            //update data K
+                            if(isset($_POST['update'])){
+                                $k=$_POST['k'];
+                                $SQL=$conn->prepare("UPDATE setting SET k='$k'");
+                                $SQL->execute();
+
+                                if(!$SQL){
+                                    $msg=$conn->error;
+                                    echo '
+                                        <div class="alert bg-green alert-dismissible" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            Data Gagal Disimpan '.$msg.', Silakan Ulangi.
+                                        </div>
+                                    ';
+                                    }else{                            
+                                        echo '<div class="alert bg-green alert-dismissible" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            Data Berhasil Diupdate.
+                                        </div>';
+                                    } 
+                            }
+                            ?>
+                            <form id="add_data" method="POST">                                              
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                         <input name="k" type="number" class="form-control" max="10" min="1" value="<?php echo $k2; ?>" required>
+                                         <label class="form-label">Nilai K</label>
+                                    </div>
+                                </div>
+                                <input name="update" type="submit" class="btn btn-primary m-t-15 waves-effect" value="Update">
+                                <input type="reset" class="btn btn-danger m-t-15 waves-effect" value="Batal">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #END# Nilai K -->
             <!-- Table Data Training-->
             <div class="row clearfix">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -236,23 +288,34 @@ require_once('../conf/session.php');
             <!-- #END# Table Data Training -->
 
             <div class="modal fade" id="addsmk" tabindex="-1" role="dialog">
+                <?php 
+                if(isset($_POST['simpansmk'])){
+                    $jursmk=$_POST['jursmk'];
+
+                    $SQL = $conn->prepare('INSERT INTO jursmk(jurusan_smk) VALUES(?)');
+                    $SQL->bind_param('s',$jursmk);
+                    $SQL->execute();
+                    
+                    echo'<meta http-equiv="refresh" content="0">';  
+                }
+                ?>
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" id="defaultModalLabel">Tambah Data Jurusan SMK</h4>
                         </div>
                         <div class="modal-body">
-                            <form id="sign_in" method="POST">                                              
+                            <form id="add_data" method="POST">                                              
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="material-icons">person</i>
+                                        <i class="material-icons">control_point</i>
                                     </span>
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="username" placeholder="Username" required>
+                                        <input type="text" class="form-control" name="jursmk" placeholder="Jurusan SMK" required>
                                     </div>
                                 </div>
                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-link waves-effect">Simpan</button>
+                                    <input type="submit" class="btn btn-link waves-effect" value="Simpan" name="simpansmk">
                                     <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
                                 </div>
                             </form>
@@ -262,21 +325,43 @@ require_once('../conf/session.php');
                 </div>
             </div>
             <div class="modal fade" id="adduniv" tabindex="-1" role="dialog">
+                <?php 
+                if(isset($_POST['simpanuniv'])){
+                    $juruniv=$_POST['juruniv'];
+
+                    $SQL = $conn->prepare('INSERT INTO juruniv(jurusan_univ) VALUES(?)');
+                    $SQL->bind_param('s',$juruniv);
+                    $SQL->execute();
+                    
+                    echo'<meta http-equiv="refresh" content="0">';  
+                }
+                ?>
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="defaultModalLabel">Modal title</h4>
+                            <h4 class="modal-title" id="defaultModalLabel">Tambah Data Jurusan Universitas</h4>
                         </div>
                         <div class="modal-body">
-                            UNIV
+                            <form id="add_data" method="POST">                                              
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">control_point</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="juruniv" placeholder="Jurusan Universtas" required>
+                                    </div>
+                                </div>
+                               <div class="modal-footer">
+                                    <input type="submit" class="btn btn-link waves-effect" value="Simpan" name="simpanuniv">
+                                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-link waves-effect">SAVE CHANGES</button>
-                            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
+            
         </div>
     </section>
 
@@ -310,6 +395,11 @@ require_once('../conf/session.php');
     <script src="../../js/admin.js"></script>
     <script src="../../js/pages/tables/jquery-datatable.js"></script>
     <script src="../../js/pages/ui/modals.js"></script>
+    <script src="../../js/pages/examples/add-training.js"></script>
+
+     <!-- Jquery Validation Plugin-->
+    <script src="../../plugins/jquery-validation/jquery.validate.js"></script>
+    <script src="../../plugins/jquery-validation/localization/messages_id.js"></script>
 
     <!-- Demo Js -->
     <script src="../../js/demo.js"></script>

@@ -238,11 +238,12 @@ require_once('../conf/session.php');
                                             <div class="form-line">
                                                 <select name="juruniv" class="form-control show-tick" required>
                                                     <option value="">-- Please select --</option>
-                                                    <option value="SI">Sistem Informasi</option>
-                                                    <option value="SK">Sistem Komputer</option>
-                                                    <option value="TI">Teknik Informasi</option>
-                                                    <option value="TE">Teknik Elektro</option>
-                                                    <option value="TM">Teknik Mesin</option>
+                                                    <?php 
+                                                    $query = $conn->query("SELECT * FROM juruniv");                
+                                                    while($row=$query->fetch_array()){
+                                                        echo'<option value="'.$row['id_juruniv'].'">'.$row['jurusan_univ'].'</option>';
+                                                    }    
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>

@@ -8,7 +8,7 @@ require_once('../conf/session.php');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Data Training | </title>
+    <title>Hitung KNN | </title>
     <!-- Favicon-->
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
 
@@ -97,31 +97,31 @@ require_once('../conf/session.php');
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li>
-                        <a href="../pages/index">
+                        <a href="../">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
                     </li>
                     <li>
-                        <a href="./">
+                        <a href="../dtraining">
                             <i class="material-icons">layers</i>
                             <span>Data Training</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../dtest">
                             <i class="material-icons">layers</i>
                             <span>Data Test</span>
                         </a>
                     </li>
                     <li class="active">
-                        <a href="pages/helper-classes.html">
+                        <a href="./">
                             <i class="material-icons">poll</i>
                             <span>Hitung KNN</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../setting">
                             <i class="material-icons">settings</i>
                             <span>Setting</span>
                         </a>
@@ -146,11 +146,9 @@ require_once('../conf/session.php');
 
    <section class="content">
         <div class="container-fluid">
-            <!-- Vertical Layout | With Floating Label -->
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <?php
-                    if(isset($_POST['simpan'])){
+            <!-- Nilai K-->
+            <?php
+                    if(isset($_POST['hitung'])){
                         //deklarasi variabel
                         $nama=$_POST['nama'];
                         $jursmk=$_POST['jursmk'];
@@ -165,34 +163,101 @@ require_once('../conf/session.php');
                         $ing=$_POST['ing'];
                         $mtk=$_POST['mtk'];
                         $kom=$_POST['kom'];
-
-                        $SQL = $conn->prepare('INSERT INTO dtraining(nama,sm1,sm2,sm3,sm4,sm5,sm6,bindo,bing,mat,komp,jurusan,hasil) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)');
-                        $SQL->bind_param('siiiiiiiiiiss',$nama,$sm1,$sm2,$sm3,$sm4,$sm5,$sm6,$ind,$ing,$mtk,$kom,$jursmk,$juruniv);
-                        $SQL->execute();
                         
-                        if(!$SQL){
-                            $msg=$conn->error;
-                            echo '
-                                <div class="alert bg-green alert-dismissible" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    Data Gagal Disimpan '.$msg.', Silakan Ulangi.
-                                </div>
-                            ';
-                        }else{
-                            echo '
-                                <div class="alert bg-green alert-dismissible" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    Data Berhasil Disipan.
-                                </div>
-                            ';
+                        $query = $conn->query("SELECT * FROM dtraining WHERE jurusan='$jursmk'");                
+                        while($row=$query->fetch_array()){
+                            $nama=$row['nama'];
+                            $hasil=$row['hasil'];
+                            $nsm1=$row['sm1'];
+                            $nsm2=$row['sm2'];
+                            $nsm3=$row['sm3'];
+                            $nsm4=$row['sm4'];
+                            $nsm5=$row['sm5'];
+                            $nsm6=$row['sm6'];
+                            $nind=$row['bindo'];
+                            $ning=$row['bing'];
+                            $nmtk=$row['mat'];
+                            $nkom=$row['komp'];
+
+                            $msm1=(($sm1 - $nsm1));                            
+                            $psm1=pow($msm1, 2);
+                            $msm2=(($sm2 - $nsm2));                            
+                            $psm2=pow($msm2, 2);
+                            $msm3=(($sm3 - $nsm3));                            
+                            $psm3=pow($msm3, 2);
+                            $msm4=(($sm4 - $nsm4));                            
+                            $psm4=pow($msm4, 2);
+                            $msm5=(($sm5 - $nsm5));                            
+                            $psm5=pow($msm5, 2);
+                            $msm6=(($sm6 - $nsm6));                            
+                            $psm6=pow($msm6, 2);
+                            $mind=(($ind - $nind));                            
+                            $pind=pow($mind, 2);
+                            $ming=(($ing - $ning));                            
+                            $ping=pow($ming, 2);
+                            $mmtk=(($mtk - $nmtk));                            
+                            $pmtk=pow($mmtk, 2);
+                            $mkom=(($kom - $nkom));                            
+                            $pkom=pow($mkom, 2);
+
+                            $ptot=($psm1+$psm2+$psm3+$psm4+$psm5+$psm6+$pind+$ping+$pmtk+$pkom);
+                            $atot=sqrt($ptot);
+
+                            $SQL = $conn->prepare('INSERT INTO tmp1(nama,distance,hasil) VALUES(?,?,?)');
+                            $SQL->bind_param('sis',$nama,$atot,$hasil);
+                            $SQL->execute();                      
                         }
+                            //select * from tmp1 order by distance desc limit 0 ,5;
+                        $query1 = $conn->query("SELECT k FROM setting");                
+                        $row1=$query1->fetch_array();
+                        $k=$row1['k'];
+
+                        $query2 = $conn->query("SELECT * FROM tmp1 ORDER BY distance desc limit 0 , $k");                
+                        while($row2=$query->fetch_array()){
+                        $distance=$row2['distance'];
+                        $hasil=$row2['hasil'];
+                        echo '->'.$distance.'->'.$hasil.'';
+                        }
+                        
+                        
                     } 
+                    
                     ?>
+            <!-- #END# Nilai K -->
+            <!-- Vertical Layout | With Floating Label -->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">                    
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Tambah Data Training
-                                <small>Input baru yang akan disimpan sebagai data training</small>
+                                <?php
+                                $query1 = $conn->query("SELECT k FROM setting");                
+                                $row1=$query1->fetch_array();
+                                $k=$row1['k'];
+
+                                $query2 = $conn->query("SELECT * FROM tmp1 ORDER BY distance desc limit 0 , $k");                
+                                while($row2=$query2->fetch_array()){
+                                $distance=$row2['distance'];
+                                $hasil=$row2['hasil'];
+
+                                /*$SQL1 = $conn->prepare('INSERT INTO tmp2(distance,hasil) VALUES(?,?)');
+                                $SQL1->bind_param('is',$distance,$hasil);
+                                $SQL1->execute();*/                                 
+                                }
+
+                                //select hasil, max(total) as high from (select hasil, count(hasil) as total from tmp2 group by hasil) as t;
+                                $query3 = $conn->query("SELECT hasil, max(total) as high from (select hasil, count(hasil) as total from tmp2 group by hasil) as t");                
+                                while($row3=$query3->fetch_array()){
+                                $total=$row3['0'];
+                                $hasil=$row3['1'];
+                                
+                                echo"$total";
+                                echo"<br>";
+                                }
+                                
+                                ?>
+                                Hitung KNN
+                                <small>Masukan informasi dasar untuk perhitungan.</small>
                             </h2>
                         </div>
                         <div class="body">
@@ -318,7 +383,7 @@ require_once('../conf/session.php');
                                         </div>                                        
                                     </div>
                                 </div>
-                                <input name="simpan" type="submit" class="btn btn-primary m-t-15 waves-effect" value="Simpan">
+                                <input name="hitung" type="submit" class="btn btn-primary m-t-15 waves-effect" value="Hitung">
                                 <input type="reset" class="btn btn-warning m-t-15 waves-effect" value="Reset Form">
                                 <a href="./" class="btn btn-danger m-t-15 waves-effect">Back</a>
                             </form>
