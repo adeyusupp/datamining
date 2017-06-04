@@ -150,6 +150,13 @@ require_once('../conf/session.php');
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <?php
+                    //get data dari db
+                    $id=$_GET['id'];
+                    $query = $conn->prepare('SELECT * FROM dtraining WHERE id="'.$id.'"');
+                    $query->execute();
+                    $result=$query->get_result();
+                    $row=$result->fetch_array();
+
                     if(isset($_POST['simpan'])){
                         //deklarasi variabel
                         $nama=$_POST['nama'];
@@ -166,8 +173,7 @@ require_once('../conf/session.php');
                         $mtk=$_POST['mtk'];
                         $kom=$_POST['kom'];
 
-                        $SQL = $conn->prepare('INSERT INTO dtraining(nama,sm1,sm2,sm3,sm4,sm5,sm6,bindo,bing,mat,komp,jurusan,hasil) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)');
-                        $SQL->bind_param('siiiiiiiiiiss',$nama,$sm1,$sm2,$sm3,$sm4,$sm5,$sm6,$ind,$ing,$mtk,$kom,$jursmk,$juruniv);
+                        $SQL=$conn->prepare("UPDATE dtraining SET nama='$nama',sm1='$sm1',sm2='$sm2',sm3='$sm3',sm4='$sm4',sm5='$sm5',sm6='$sm6',bindo='$ind',bing='$ing',mat='$mtk',jurusan='$jursmk',hasil='$juruniv' WHERE id='$id'");
                         $SQL->execute();
                         
                         if(!$SQL){
@@ -178,25 +184,20 @@ require_once('../conf/session.php');
                                     Data Gagal Disimpan '.$msg.', Silakan Ulangi.
                                 </div>
                             ';
-                        }else{
-                            echo '
-                                <div class="alert bg-green alert-dismissible" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    Data Berhasil Disipan.
-                                </div>
-                            ';
+                        }else{                            
+                            echo '<script>window.location.href = "./?edit=on";</script>';
                         }
-                    } 
+                    }                    
                     ?>
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Tambah Data Training
-                                <small>Input baru yang akan disimpan sebagai data training</small>
+                                Edit Data Training
+                                <small>Edit data untuk keperluan update atau memperbaiki kesalahan.</small>
                             </h2>
                         </div>
                         <div class="body">
-                            <form id="add_data" method="POST">
+                            <form method="POST">
                                 <div class="form-horizontal">
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
@@ -205,7 +206,7 @@ require_once('../conf/session.php');
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama" required>
+                                                <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama" value="<?php echo $row['nama']; ?>" required>
                                             </div>
                                         </div>
                                     </div>
@@ -217,7 +218,7 @@ require_once('../conf/session.php');
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                               <select name="jursmk" class="form-control show-tick" required>
+                                               <select name="jursmk" class="form-control show-tick">
                                                     <option value="">-- Please select --</option>
                                                     <option value="RPL">Rekayasa Perangkat Lunak</option>
                                                     <option value="TKJ">Teknik Komputer Jaringan</option>
@@ -236,7 +237,7 @@ require_once('../conf/session.php');
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <select name="juruniv" class="form-control show-tick" required>
+                                                <select name="juruniv" class="form-control show-tick">
                                                     <option value="">-- Please select --</option>
                                                     <option value="SI">Sistem Informasi</option>
                                                     <option value="SK">Sistem Komputer</option>
@@ -255,37 +256,37 @@ require_once('../conf/session.php');
                                         <h2 class="card-inside-title">Rata - Rata Nilai Semester</h2>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input name="sm1" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="sm1" type="number" class="form-control" value="<?php echo $row['sm1']; ?>">
                                                 <label class="form-label">Semester 1</label>
                                             </div>
                                         </div>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input name="sm2" type="number"  class="form-control" max="100" min="0" required>
+                                                <input name="sm2" type="number"  class="form-control" value="<?php echo $row['sm2']; ?>">
                                                 <label class="form-label">Semester 2</label>
                                             </div>
                                         </div>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input name="sm3" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="sm3" type="number" class="form-control" value="<?php echo $row['sm3']; ?>">
                                                 <label class="form-label">Semester 3</label>
                                             </div>
                                         </div>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input name="sm4" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="sm4" type="number" class="form-control" value="<?php echo $row['sm4']; ?>">
                                                 <label class="form-label">Semester 4</label>
                                             </div>
                                         </div>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input name="sm5" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="sm5" type="number" class="form-control" value="<?php echo $row['sm5']; ?>">
                                                 <label class="form-label">Semester 5</label>
                                             </div>
                                         </div>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input name="sm6" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="sm6" type="number" class="form-control" value="<?php echo $row['sm6']; ?>">
                                                 <label class="form-label">Semester 6</label>
                                             </div>
                                         </div>
@@ -294,33 +295,32 @@ require_once('../conf/session.php');
                                         <h2 class="card-inside-title">Nilai Ujian Nasional</h2>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input name="ind" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="ind" type="number" class="form-control" value="<?php echo $row['bindo']; ?>">
                                                 <label class="form-label">Bahasa Indonesia</label>
                                             </div>
                                         </div>                                        
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input name="ing" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="ing" type="number" class="form-control" value="<?php echo $row['bing']; ?>">
                                                 <label class="form-label">Bahasa Inggris</label>
                                             </div>
                                         </div>                                        
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input name="mtk" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="mtk" type="number" class="form-control" value="<?php echo $row['mat']; ?>">
                                                 <label class="form-label">Matematika</label>
                                             </div>
                                         </div>                                        
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input name="kom" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="kom" type="number" class="form-control" value="<?php echo $row['komp']; ?>">
                                                 <label class="form-label">Kompetensi</label>
                                             </div>
                                         </div>                                        
                                     </div>
                                 </div>
                                 <input name="simpan" type="submit" class="btn btn-primary m-t-15 waves-effect" value="Simpan">
-                                <input type="reset" class="btn btn-warning m-t-15 waves-effect" value="Reset Form">
-                                <a href="./" class="btn btn-danger m-t-15 waves-effect">Back</a>
+                                <a href="./?edit=on" class="btn btn-danger m-t-15 waves-effect">Back</a>
                             </form>
                         </div>
                     </div>
@@ -348,18 +348,17 @@ require_once('../conf/session.php');
     <!-- SweetAlert Plugin Js -->
     <script src="../../plugins/sweetalert/sweetalert.min.js"></script>
 
-     <!-- Jquery Validation Plugin-->
+     <!-- Jquery Validation Plugin Css -->
     <script src="../../plugins/jquery-validation/jquery.validate.js"></script>
-    <script src="../../plugins/jquery-validation/localization/messages_id.js"></script>
+
 
     <!-- Custom Js -->
     <script src="../../js/admin.js"></script>
+    <script src="../../js/pages/forms/basic-form-elements.js"></script>
     <script src="../../js/pages/ui/dialogs.js"></script>
 
     <!-- Demo Js -->
     <script src="../../js/demo.js"></script>
-    <script src="../../js/pages/examples/add-training.js"></script>
-    
 </body>
 
 </html>

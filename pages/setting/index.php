@@ -8,7 +8,7 @@ require_once('../conf/session.php');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Data Training | </title>
+    <title>Setting | </title>
     <!-- Favicon-->
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
 
@@ -30,6 +30,7 @@ require_once('../conf/session.php');
 
     <!-- Custom Css -->
     <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/mystyle.css" rel="stylesheet">
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="../../css/themes/all-themes.css" rel="stylesheet" />
@@ -99,26 +100,26 @@ require_once('../conf/session.php');
                             <span>Home</span>
                         </a>
                     </li>
-                    <li class="active">
-                        <a href="index">
+                    <li>
+                        <a href="../dtraining">
                             <i class="material-icons">layers</i>
                             <span>Data Training</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../dtest">
                             <i class="material-icons">layers</i>
                             <span>Data Test</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../hitungknn">
                             <i class="material-icons">poll</i>
                             <span>Hitung KNN</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="pages/helper-classes.html">
+                    <li class="active">
+                        <a href="./">
                             <i class="material-icons">settings</i>
                             <span>Setting</span>
                         </a>
@@ -145,101 +146,85 @@ require_once('../conf/session.php');
         <div class="container-fluid">
             <!-- Table Data Training-->
             <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Data Training
+                                Data Jurusan SMK
                             </h2>
-                            <?php
-                            $stat=null;
-                            if(isset($_GET['edit'])){
-                                $modeE=$_GET['edit'];
-                                if($modeE=="on"){
-                                    $stat=1;
-                                }else{
-                                    $stat=0;
-                                }
-                            }
-                            ?>
-                            <ul class="header-dropdown m-r--9">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="addtraining"><i class="material-icons">add_box</i>Tambah Data</a></li>
-                                        <?php
-                                            if($stat==1){                                                
-                                        ?>
-                                        <li><a href="./"><i class="material-icons">list</i>List Mode</a></li>
-                                        <?php
-                                        }else{?>
-                                        <li><a href="./?edit=on"><i class="material-icons">mode_edit</i>Edit Mode</a></li>
-                                        <?php } ?>
-                                    </ul>
-                                </li>
-                            </ul>
+                            <div class="header-button">
+                            <button type="button" class="btn bg-blue waves-effect m-r-20" data-toggle="modal" data-target="#addsmk">Tambah Data</button>                            
+                            </div>                            
                         </div>
                         <div class="body">
-                            <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                            <table class="table table-bordered table-striped table-hover dataTable js-basic-example">
                                 <thead>
                                     <tr>
-                                        <th rowspan="2">No</th>
-                                        <th rowspan="2" width="80px">Name</th>
-                                        <td colspan="6" align="center"><strong>Rata - Rata Nilai Per Semster</strong></td>
-                                        <td colspan="4" align="center"><strong>Nilai UN</strong></td>
-                                        <th rowspan="2">Jurusan SMK</th>
-                                        <th rowspan="2">Hasil</th>
-                                        <?php if($stat==1){  ?>
-                                        <th rowspan="2" width="50px">Option</th>
-                                        <?php } ?>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>2</td>
-                                        <td>3</td>
-                                        <td>4</td>
-                                        <td>5</td>
-                                        <td>6</td>
-                                        <td>B.Indo</td>
-                                        <td>B.Ingg</td>
-                                        <td>MTK</td>
-                                        <td>Komp</td>
+                                        <th>No</th>
+                                        <th>Jurusan</th>
+                                        <th>Option</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php
                                     $no = 1;
-                                    $query = $conn->prepare('SELECT * FROM dtraining');
+                                    $query = $conn->prepare('SELECT * FROM jursmk');
                                     $query->execute();
                                     $result=$query->get_result();
                                         while($row=$result->fetch_array()){
                                            echo '
                                            <tr>
                                             <td>'.$no++.'</td>
-                                            <td>'.$row['nama'].'</td>
-                                            <td>'.$row['sm1'].'</td>
-                                            <td>'.$row['sm2'].'</td>
-                                            <td>'.$row['sm3'].'</td>
-                                            <td>'.$row['sm4'].'</td>
-                                            <td>'.$row['sm5'].'</td>
-                                            <td>'.$row['sm6'].'</td>
-                                            <td>'.$row['bindo'].'</td>
-                                            <td>'.$row['bing'].'</td>
-                                            <td>'.$row['mat'].'</td>
-                                            <td>'.$row['komp'].'</td>                                            
-                                            <td>'.$row['jurusan'].'</td>                                            
-                                            <td>'.$row['hasil'].'</td>
-                                            ';
-                                            if($stat==1){  
-                                            echo'  
+                                            <td>'.$row['jurusan_smk'].'</td>                                            
                                             <td>
-                                            <a href="etraining?id='.$row['id'].'" class="btn btn-success btn-xs waves-effect"><i class="material-icons">edit</i></a>&nbsp;
+                                            <a href="esmk?id='.$row['id_jursmk'].'" class="btn btn-success btn-xs waves-effect"><i class="material-icons">edit</i></a>&nbsp;
                                             <a href="./" class="btn btn-danger btn-xs waves-effect"><i class="material-icons">delete</i></a>
                                             </td>
                                           </tr>
-                                           '; }
+                                           '; 
+                                        }
+                                ?>  
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Data Jurusan Universitas
+                            </h2>
+                            <div class="header-button">
+                                <button type="button" class="btn bg-blue waves-effect m-r-20" data-toggle="modal" data-target="#adduniv">Tambah Data</button>                            
+                            </div>
+                        </div>
+                        <div class="body">
+                            <table class="table table-bordered table-striped table-hover dataTable js-basic-example">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Jurusan</th>
+                                        <th>Option</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                    $no = 1;
+                                    $query = $conn->prepare('SELECT * FROM juruniv');
+                                    $query->execute();
+                                    $result=$query->get_result();
+                                        while($row=$result->fetch_array()){
+                                           echo '
+                                           <tr>
+                                            <td>'.$no++.'</td>
+                                            <td>'.$row['jurusan_univ'].'</td>                                            
+                                            <td>
+                                            <a href="euniv?id='.$row['id_juruniv'].'" class="btn btn-success btn-xs waves-effect"><i class="material-icons">edit</i></a>&nbsp;
+                                            <a href="./" class="btn btn-danger btn-xs waves-effect"><i class="material-icons">delete</i></a>
+                                            </td>
+                                          </tr>
+                                           '; 
                                         }
                                 ?>  
                                 </tbody>
@@ -249,6 +234,49 @@ require_once('../conf/session.php');
                 </div>
             </div>
             <!-- #END# Table Data Training -->
+
+            <div class="modal fade" id="addsmk" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="defaultModalLabel">Tambah Data Jurusan SMK</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="sign_in" method="POST">                                              
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">person</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="username" placeholder="Username" required>
+                                    </div>
+                                </div>
+                               <div class="modal-footer">
+                                    <button type="button" class="btn btn-link waves-effect">Simpan</button>
+                                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="adduniv" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="defaultModalLabel">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            UNIV
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-link waves-effect">SAVE CHANGES</button>
+                            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -281,6 +309,7 @@ require_once('../conf/session.php');
     <!-- Custom Js -->
     <script src="../../js/admin.js"></script>
     <script src="../../js/pages/tables/jquery-datatable.js"></script>
+    <script src="../../js/pages/ui/modals.js"></script>
 
     <!-- Demo Js -->
     <script src="../../js/demo.js"></script>

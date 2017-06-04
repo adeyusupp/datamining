@@ -102,7 +102,7 @@ require_once('../conf/session.php');
                             <span>Home</span>
                         </a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="./">
                             <i class="material-icons">layers</i>
                             <span>Data Training</span>
@@ -114,7 +114,7 @@ require_once('../conf/session.php');
                             <span>Data Test</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="pages/helper-classes.html">
                             <i class="material-icons">poll</i>
                             <span>Hitung KNN</span>
