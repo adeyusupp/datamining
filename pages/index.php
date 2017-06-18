@@ -122,19 +122,19 @@ $user_check = $_SESSION['username'];
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="dtest">
                             <i class="material-icons">layers</i>
                             <span>Data Test</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="hitungknn">
                             <i class="material-icons">poll</i>
                             <span>Hitung KNN</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="setting">
                             <i class="material-icons">settings</i>
                             <span>Setting</span>
                         </a>

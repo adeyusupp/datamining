@@ -79,8 +79,8 @@ require_once('../conf/session.php');
                     <img src="../../images/user.png" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                    <div class="email">john.doe@example.com</div>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo "$name"; ?></div>
+                    <div class="email"><?php echo "$email"; ?></div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
@@ -109,19 +109,19 @@ require_once('../conf/session.php');
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../dtest">
                             <i class="material-icons">layers</i>
                             <span>Data Test</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../hitungknn">
                             <i class="material-icons">poll</i>
                             <span>Hitung KNN</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../setting">
                             <i class="material-icons">settings</i>
                             <span>Setting</span>
                         </a>
@@ -220,11 +220,18 @@ require_once('../conf/session.php');
                                             <div class="form-line">
                                                <select name="jursmk" class="form-control show-tick">
                                                     <option value="">-- Please select --</option>
-                                                    <option value="RPL">Rekayasa Perangkat Lunak</option>
-                                                    <option value="TKJ">Teknik Komputer Jaringan</option>
-                                                    <option value="TEI">Teknik Elektronik Industri</option>
-                                                    <option value="TSM">Teknik Sepeda Motor</option>
-                                                    <option value="Akuntansi">Akutansi</option>
+                                                    <?php
+                                                        $id_jursmk1=$row['jurusan'];
+                                                        $query = $conn->query("SELECT * FROM jursmk");                
+                                                        while($row2=$query->fetch_array()){
+                                                            $id_jursmk2=$row2['id_jursmk'];
+                                                            if ($id_jursmk1==$id_jursmk2){
+                                                                echo'<option selected value="'.$id_jursmk2.'">'.$row2['jurusan_smk'].'</option>';
+                                                            }else{
+                                                                echo'<option value="'.$id_jursmk2.'">'.$row2['jurusan_smk'].'</option>';
+                                                            }
+                                                                                                                   }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -239,11 +246,18 @@ require_once('../conf/session.php');
                                             <div class="form-line">
                                                 <select name="juruniv" class="form-control show-tick">
                                                     <option value="">-- Please select --</option>
-                                                    <option value="SI">Sistem Informasi</option>
-                                                    <option value="SK">Sistem Komputer</option>
-                                                    <option value="TI">Teknik Informasi</option>
-                                                    <option value="TE">Teknik Elektro</option>
-                                                    <option value="TM">Teknik Mesin</option>
+                                                    <?php
+                                                        $id_juruniv1=$row['hasil'];
+                                                        $query = $conn->query("SELECT * FROM juruniv");                
+                                                        while($row2=$query->fetch_array()){
+                                                            $id_juruniv2=$row2['id_juruniv'];
+                                                            if ($id_juruniv1==$id_juruniv2){
+                                                                echo'<option selected value="'.$id_juruniv2.'">'.$row2['jurusan_univ'].'</option>';
+                                                            }else{
+                                                                echo'<option value="'.$id_juruniv2.'">'.$row2['jurusan_univ'].'</option>';
+                                                            }                                                            
+                                                        }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>

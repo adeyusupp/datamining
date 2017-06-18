@@ -25,6 +25,9 @@ require_once('../conf/session.php');
     <!-- Animation Css -->
     <link href="../../plugins/animate-css/animate.css" rel="stylesheet" />
 
+    <!-- Sweetalert Css -->
+    <link href="../../plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+
     <!-- JQuery DataTable Css -->
     <link href="../../plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
 
@@ -174,30 +177,26 @@ require_once('../conf/session.php');
                                         </div>
                                     ';
                                     }else{                            
-                                        echo '<div class="alert bg-green alert-dismissible" role="alert">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            Data Berhasil Diupdate.
-                                        </div>';
+                                       echo'<meta http-equiv="refresh" content="0">';   
                                     } 
                             }
                             ?>
                             <form id="add_data" method="POST">                                              
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                         <input name="k" type="number" class="form-control" max="10" min="1" value="<?php echo $k2; ?>" required>
+                                         <input name="k" type="number" class="form-control" max="19" min="3" step="2" value="<?php echo $k2; ?>" required>
                                          <label class="form-label">Nilai K</label>
                                     </div>
                                 </div>
                                 <input name="update" type="submit" class="btn btn-primary m-t-15 waves-effect" value="Update">
-                                <input type="reset" class="btn btn-danger m-t-15 waves-effect" value="Batal">
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- #END# Nilai K -->
-            <!-- Table Data Training-->
             <div class="row clearfix">
+                <!-- Table Data Jurusan SMK -->
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class="card">
                         <div class="header">
@@ -225,12 +224,13 @@ require_once('../conf/session.php');
                                     $result=$query->get_result();
                                         while($row=$result->fetch_array()){
                                            echo '
-                                           <tr>
+                                           <tr id="smk'.$row['id_jursmk'].'">
                                             <td>'.$no++.'</td>
-                                            <td>'.$row['jurusan_smk'].'</td>                                            
+                                            <td id="jursmk'.$row['id_jursmk'].'">'.$row['jurusan_smk'].'</td>
+                                            <input id="jur'.$row['id_jursmk'].'" type="hidden"  value="'.$row['jurusan_smk'].'">                                           
                                             <td>
-                                            <a href="esmk?id='.$row['id_jursmk'].'" class="btn btn-success btn-xs waves-effect"><i class="material-icons">edit</i></a>&nbsp;
-                                            <a href="./" class="btn btn-danger btn-xs waves-effect"><i class="material-icons">delete</i></a>
+                                                <button onclick="EditJurSmk('.$row['id_jursmk'].')" type="button" class="smk btn btn-success btn-xs waves-effect" data-toggle="modal" data-target="#editsmk"><i class="material-icons">edit</i></button>&nbsp;                                                
+                                                <button onclick="DeleteJurSmk('.$row['id_jursmk'].')" class="smk btn btn-danger btn-xs waves-effect"><i class="material-icons">delete</i></button>
                                             </td>
                                           </tr>
                                            '; 
@@ -241,6 +241,8 @@ require_once('../conf/session.php');
                         </div>
                     </div>
                 </div>
+                <!-- #END# Table Data Jurusan SMK -->  
+                <!-- Table Data Jurusan Universitas -->  
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class="card">
                         <div class="header">
@@ -268,12 +270,13 @@ require_once('../conf/session.php');
                                     $result=$query->get_result();
                                         while($row=$result->fetch_array()){
                                            echo '
-                                           <tr>
+                                           <tr id="univ'.$row['id_juruniv'].'">
                                             <td>'.$no++.'</td>
-                                            <td>'.$row['jurusan_univ'].'</td>                                            
+                                            <td id="juruniv'.$row['id_juruniv'].'">'.$row['jurusan_univ'].'</td>  
+                                            <input id="jurunv'.$row['id_juruniv'].'" type="hidden"  value="'.$row['jurusan_univ'].'">                                           
                                             <td>
-                                            <a href="euniv?id='.$row['id_juruniv'].'" class="btn btn-success btn-xs waves-effect"><i class="material-icons">edit</i></a>&nbsp;
-                                            <a href="./" class="btn btn-danger btn-xs waves-effect"><i class="material-icons">delete</i></a>
+                                            <button onclick="EditJurUniv('.$row['id_juruniv'].')" type="button" class="smk btn btn-success btn-xs waves-effect" data-toggle="modal" data-target="#edituniv"><i class="material-icons">edit</i></button>&nbsp; 
+                                            <button onclick="DeleteJurUniv('.$row['id_juruniv'].')" class="smk btn btn-danger btn-xs waves-effect"><i class="material-icons">delete</i></button>
                                             </td>
                                           </tr>
                                            '; 
@@ -285,8 +288,60 @@ require_once('../conf/session.php');
                     </div>
                 </div>
             </div>
-            <!-- #END# Table Data Training -->
-
+            <!-- #END# Table Data Jurusan Universitas -->  
+            <!-- Modal Edit Jurusan SMK -->      
+            <div class="modal fade" id="editsmk" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="defaultModalLabel">Edit Data Jurusan SMK</h4>
+                            <div class="header-button">
+                                <button type="button" class="close" data-dismiss="modal"><i class="material-icons">close</i></button>                            
+                            </div>
+                        </div>
+                        <div class="modal-body">                                            
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">control_point</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="hidden" name="id_jursmk">
+                                        <input type="text" class="form-control" name="jursmk" placeholder="Jurusan SMK" required>
+                                    </div>
+                                </div>
+                                <button onclick="UpdateJurSmk()" class="btn btn-block btn-lg bg-pink waves-effect">Simpan</button>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <!-- #END# Modal Edit Jurusan SMK -->   
+            <!-- Modal Edit Jurusan Univ -->      
+            <div class="modal fade" id="edituniv" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="defaultModalLabel">Edit Data Jurusan SMK</h4>
+                            <div class="header-button">
+                                <button type="button" class="close" data-dismiss="modal"><i class="material-icons">close</i></button>                            
+                            </div>
+                        </div>
+                        <div class="modal-body">                                        
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">control_point</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="hidden" name="id_juruniv">
+                                        <input type="text" class="form-control" name="juruniv" placeholder="Jurusan Universitas" required>
+                                    </div>
+                                </div>
+                                <button onclick="UpdateJurUniv()" class="btn btn-block btn-lg bg-pink waves-effect">Simpan</button>
+                        </div>                     
+                    </div>
+                </div>
+            </div>
+            <!-- #END# Modal Edit Jurusan Univ -->   
+            <!-- Modal Tambah Jurusan SMK -->      
             <div class="modal fade" id="addsmk" tabindex="-1" role="dialog">
                 <?php 
                 if(isset($_POST['simpansmk'])){
@@ -303,6 +358,9 @@ require_once('../conf/session.php');
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" id="defaultModalLabel">Tambah Data Jurusan SMK</h4>
+                            <div class="header-button">
+                                <button type="button" class="close" data-dismiss="modal"><i class="material-icons">close</i></button>                            
+                            </div>
                         </div>
                         <div class="modal-body">
                             <form id="add_data" method="POST">                                              
@@ -314,16 +372,15 @@ require_once('../conf/session.php');
                                         <input type="text" class="form-control" name="jursmk" placeholder="Jurusan SMK" required>
                                     </div>
                                 </div>
-                               <div class="modal-footer">
-                                    <input type="submit" class="btn btn-link waves-effect" value="Simpan" name="simpansmk">
-                                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-                                </div>
+                                    <input type="submit" class="btn btn-block btn-lg bg-pink waves-effect" value="Simpan" name="simpansmk">
                             </form>
                         </div>
                         
                     </div>
                 </div>
             </div>
+            <!-- #END# Modal Tambah Jurusan SMK --> 
+            <!-- Modal Tambah Jurusan Universitas --> 
             <div class="modal fade" id="adduniv" tabindex="-1" role="dialog">
                 <?php 
                 if(isset($_POST['simpanuniv'])){
@@ -340,6 +397,9 @@ require_once('../conf/session.php');
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" id="defaultModalLabel">Tambah Data Jurusan Universitas</h4>
+                            <div class="header-button">
+                                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal"><i class="material-icons">close</i></button>                            
+                            </div>
                         </div>
                         <div class="modal-body">
                             <form id="add_data" method="POST">                                              
@@ -348,24 +408,22 @@ require_once('../conf/session.php');
                                         <i class="material-icons">control_point</i>
                                     </span>
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="juruniv" placeholder="Jurusan Universtas" required>
+                                        <input type="text" class="form-control" name="juruniv" placeholder="Jurusan Universitas" autofocus required>
                                     </div>
-                                </div>
-                               <div class="modal-footer">
-                                    <input type="submit" class="btn btn-link waves-effect" value="Simpan" name="simpanuniv">
-                                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-                                </div>
+                                </div>                               
+                                    <input type="submit" class="btn btn-block btn-lg bg-pink waves-effect" value="Simpan" name="simpanuniv">                                                                    
                             </form>
                         </div>
                         
                     </div>
                 </div>
             </div>
+            <!-- #END# Modal Tambah Jurusan Universitas -->
             
         </div>
     </section>
 
-     <!-- Jquery Core Js -->
+    <!-- Jquery Core Js -->
     <script src="../../plugins/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core Js -->
@@ -383,19 +441,19 @@ require_once('../conf/session.php');
     <!-- Jquery DataTable Plugin Js -->
     <script src="../../plugins/jquery-datatable/jquery.dataTables.js"></script>
     <script src="../../plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
-    <script src="../../plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
-    <script src="../../plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
-    <script src="../../plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
-    <script src="../../plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
-    <script src="../../plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
-    <script src="../../plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
-    <script src="../../plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+
+    <!-- SweetAlert Plugin Js -->
+    <script src="../../plugins/sweetalert/sweetalert.min.js"></script>
+
+     <!-- Bootstrap Notify Plugin Js -->
+    <script src="../../plugins/bootstrap-notify/bootstrap-notify.js"></script>
 
     <!-- Custom Js -->
     <script src="../../js/admin.js"></script>
     <script src="../../js/pages/tables/jquery-datatable.js"></script>
     <script src="../../js/pages/ui/modals.js"></script>
     <script src="../../js/pages/examples/add-training.js"></script>
+    <script src="../../js/ajaxfunc.js"></script>
 
      <!-- Jquery Validation Plugin-->
     <script src="../../plugins/jquery-validation/jquery.validate.js"></script>

@@ -100,25 +100,25 @@ require_once('../conf/session.php');
                         </a>
                     </li>
                     <li class="active">
-                        <a href="index">
+                        <a href="./">
                             <i class="material-icons">layers</i>
                             <span>Data Training</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../dtest">
                             <i class="material-icons">layers</i>
                             <span>Data Test</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../hitungknn">
                             <i class="material-icons">poll</i>
                             <span>Hitung KNN</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../setting">
                             <i class="material-icons">settings</i>
                             <span>Setting</span>
                         </a>
@@ -211,7 +211,7 @@ require_once('../conf/session.php');
                                 <tbody>
                                 <?php
                                     $no = 1;
-                                    $query = $conn->prepare('SELECT * FROM dtraining');
+                                    $query = $conn->prepare('SELECT * FROM dtraining,jursmk,juruniv WHERE dtraining.jurusan=jursmk.id_jursmk AND dtraining.hasil=juruniv.id_juruniv');
                                     $query->execute();
                                     $result=$query->get_result();
                                         while($row=$result->fetch_array()){
@@ -229,8 +229,8 @@ require_once('../conf/session.php');
                                             <td>'.$row['bing'].'</td>
                                             <td>'.$row['mat'].'</td>
                                             <td>'.$row['komp'].'</td>                                            
-                                            <td>'.$row['jurusan'].'</td>                                            
-                                            <td>'.$row['hasil'].'</td>
+                                            <td>'.$row['jurusan_smk'].'</td>                                            
+                                            <td>'.$row['jurusan_univ'].'</td>
                                             ';
                                             if($stat==1){  
                                             echo'  

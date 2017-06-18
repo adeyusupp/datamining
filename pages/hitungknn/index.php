@@ -79,8 +79,8 @@ require_once('../conf/session.php');
                     <img src="../../images/user.png" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                    <div class="email">john.doe@example.com</div>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo "$name"; ?></div>
+                    <div class="email"><?php echo "$email"; ?></div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
@@ -150,9 +150,8 @@ require_once('../conf/session.php');
             <?php
                     if(isset($_POST['hitung'])){
                         //deklarasi variabel
-                        $nama=$_POST['nama'];
+                        $nama2=$_POST['nama'];
                         $jursmk=$_POST['jursmk'];
-                        $juruniv=$_POST['juruniv'];
                         $sm1=$_POST['sm1'];
                         $sm2=$_POST['sm2'];
                         $sm3=$_POST['sm3'];
@@ -164,7 +163,8 @@ require_once('../conf/session.php');
                         $mtk=$_POST['mtk'];
                         $kom=$_POST['kom'];
                         
-                        $query = $conn->query("SELECT * FROM dtraining WHERE jurusan='$jursmk'");                
+                        //proses perhitungan distance
+                        $query = $conn->query("SELECT * FROM dtraining,jursmk WHERE dtraining.jurusan='$jursmk' AND dtraining.jurusan=jursmk.id_jursmk");                
                         while($row=$query->fetch_array()){
                             $nama=$row['nama'];
                             $hasil=$row['hasil'];
@@ -202,63 +202,111 @@ require_once('../conf/session.php');
 
                             $ptot=($psm1+$psm2+$psm3+$psm4+$psm5+$psm6+$pind+$ping+$pmtk+$pkom);
                             $atot=sqrt($ptot);
-
+                            //memasukan data yang sudah dihtung distancenya kedalam temporary1
                             $SQL = $conn->prepare('INSERT INTO tmp1(nama,distance,hasil) VALUES(?,?,?)');
-                            $SQL->bind_param('sis',$nama,$atot,$hasil);
+                            $SQL->bind_param('sds',$nama,$atot,$hasil);
                             $SQL->execute();                      
                         }
-                            //select * from tmp1 order by distance desc limit 0 ,5;
                         $query1 = $conn->query("SELECT k FROM setting");                
                         $row1=$query1->fetch_array();
                         $k=$row1['k'];
-
-                        $query2 = $conn->query("SELECT * FROM tmp1 ORDER BY distance desc limit 0 , $k");                
-                        while($row2=$query->fetch_array()){
+                        //mengurutkan distace dari nilai terkcil dan diambil sebanyak nilai k
+                        $query2 = $conn->query("SELECT * FROM tmp1 ORDER BY distance asc limit 0 , $k");                
+                        while($row2=$query2->fetch_array()){
                         $distance=$row2['distance'];
                         $hasil=$row2['hasil'];
-                        echo '->'.$distance.'->'.$hasil.'';
-                        }
-                        
-                        
-                    } 
-                    
+                        //Memasukan data yang sudah disortir ke temporary2
+                        $SQL1 = $conn->prepare('INSERT INTO tmp2(distance,hasil) VALUES(?,?)');
+                        $SQL1->bind_param('ds',$distance,$hasil);
+                        $SQL1->execute();  
+                        }   
+                            //Menghitung hasil jurusan terbanyak dengan distance terkecil
+                            $query3 = $conn->query("SELECT hasil, count(hasil) as max from tmp2 group by hasil having count(hasil)=(select max(mycount) as lol from ( select hasil , count(hasil) as mycount from tmp2 group by hasil)as t)");                
+                            while($row3=$query3->fetch_array()){
+                                $hasil2=$row3['hasil'];                                
+                            }                        
+                        //get data jurusan SMK
+                        $query4 = $conn->query("SELECT * FROM jursmk WHERE id_jursmk='$jursmk'");                
+                        $row4=$query4->fetch_array();
+                        $jursmk2=$row4['jurusan_smk'];      
+                        //get data jurusan UNIVERSITAS
+                        $query5 = $conn->query("SELECT * FROM juruniv WHERE id_juruniv='$hasil2'");                
+                        $row5=$query5->fetch_array();
+                        $juruniv2=$row5['jurusan_univ'];         
                     ?>
-            <!-- #END# Nilai K -->
+            <!-- Hasil Perhitungan-->
+            <div class="row clearfix">                
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Hasil Perhitungan
+                            </h2> 
+                            <small>Hasil perhitungan dari algoritma KNN</small>                                                   
+                        </div>
+                        <div class="body">
+                            <div class="form-horizontal">
+                            <form method="POST">
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label>Nama Lengkap</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input disabled type="text" class="form-control" placeholder="Nama Lengkap" name="nama" value="<?php echo $nama2; ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="password_2">Jurusan SMK</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input disabled type="text" class="form-control" placeholder="Nama Lengkap" name="nama" value="<?php echo $jursmk2; ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                               
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="password_2">Prediksi Jurusan Di Universitas</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input disabled type="text" class="form-control" placeholder="Prediksi Jurusan Di Universitas" name="nama" value="<?php echo $juruniv2; ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>  
+                                </form>                          
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #END# Hasil Perhitungan -->
+                    <?php 
+                        //hapus data temporary
+                        $SQL2 = $conn->prepare('DELETE FROM tmp1');
+                        $SQL2->execute();
+                        $SQL3 = $conn->prepare('DELETE FROM tmp2');
+                        $SQL3->execute();                    
+                    }                         
+                    ?>
             <!-- Vertical Layout | With Floating Label -->
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">                    
                     <div class="card">
                         <div class="header">
                             <h2>
-                                <?php
-                                $query1 = $conn->query("SELECT k FROM setting");                
-                                $row1=$query1->fetch_array();
-                                $k=$row1['k'];
-
-                                $query2 = $conn->query("SELECT * FROM tmp1 ORDER BY distance desc limit 0 , $k");                
-                                while($row2=$query2->fetch_array()){
-                                $distance=$row2['distance'];
-                                $hasil=$row2['hasil'];
-
-                                /*$SQL1 = $conn->prepare('INSERT INTO tmp2(distance,hasil) VALUES(?,?)');
-                                $SQL1->bind_param('is',$distance,$hasil);
-                                $SQL1->execute();*/                                 
-                                }
-
-                                //select hasil, max(total) as high from (select hasil, count(hasil) as total from tmp2 group by hasil) as t;
-                                $query3 = $conn->query("SELECT hasil, max(total) as high from (select hasil, count(hasil) as total from tmp2 group by hasil) as t");                
-                                while($row3=$query3->fetch_array()){
-                                $total=$row3['0'];
-                                $hasil=$row3['1'];
-                                
-                                echo"$total";
-                                echo"<br>";
-                                }
-                                
-                                ?>
-                                Hitung KNN
-                                <small>Masukan informasi dasar untuk perhitungan.</small>
+                                Hitung KNN                                
                             </h2>
+                            <small>Masukan informasi dasar untuk perhitungan.</small>
                         </div>
                         <div class="body">
                             <form id="add_data" method="POST">
@@ -284,35 +332,17 @@ require_once('../conf/session.php');
                                             <div class="form-line">
                                                <select name="jursmk" class="form-control show-tick" required>
                                                     <option value="">-- Please select --</option>
-                                                    <option value="RPL">Rekayasa Perangkat Lunak</option>
-                                                    <option value="TKJ">Teknik Komputer Jaringan</option>
-                                                    <option value="TEI">Teknik Elektronik Industri</option>
-                                                    <option value="TSM">Teknik Sepeda Motor</option>
-                                                    <option value="Akuntansi">Akutansi</option>
+                                                    <?php
+                                                        $query6=$conn->query("SELECT * FROM jursmk");                
+                                                        while($row6=$query6->fetch_array()){
+                                                            echo'<option value="'.$row6['id_jursmk'].'">'.$row6['jurusan_smk'].'</option>';
+                                                        }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row clearfix">
-                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="password_2">Jurusan Universitas</label>
-                                    </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <select name="juruniv" class="form-control show-tick" required>
-                                                    <option value="">-- Please select --</option>
-                                                    <option value="SI">Sistem Informasi</option>
-                                                    <option value="SK">Sistem Komputer</option>
-                                                    <option value="TI">Teknik Informasi</option>
-                                                    <option value="TE">Teknik Elektro</option>
-                                                    <option value="TM">Teknik Mesin</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div>                               
                             </div>
                             <hr></hr>
                                 <div class="row clearfix">

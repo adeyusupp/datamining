@@ -79,8 +79,8 @@ require_once('../conf/session.php');
                     <img src="../../images/user.png" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                    <div class="email">john.doe@example.com</div>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo "$name"; ?></div>
+                    <div class="email"><?php echo "$email"; ?></div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
@@ -97,7 +97,7 @@ require_once('../conf/session.php');
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li>
-                        <a href="../pages/index">
+                        <a href="../">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
@@ -109,19 +109,19 @@ require_once('../conf/session.php');
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../dtest">
                             <i class="material-icons">layers</i>
                             <span>Data Test</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../hitungknn">
                             <i class="material-icons">poll</i>
                             <span>Hitung KNN</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pages/helper-classes.html">
+                        <a href="../setting">
                             <i class="material-icons">settings</i>
                             <span>Setting</span>
                         </a>
@@ -219,11 +219,12 @@ require_once('../conf/session.php');
                                             <div class="form-line">
                                                <select name="jursmk" class="form-control show-tick" required>
                                                     <option value="">-- Please select --</option>
-                                                    <option value="RPL">Rekayasa Perangkat Lunak</option>
-                                                    <option value="TKJ">Teknik Komputer Jaringan</option>
-                                                    <option value="TEI">Teknik Elektronik Industri</option>
-                                                    <option value="TSM">Teknik Sepeda Motor</option>
-                                                    <option value="Akuntansi">Akutansi</option>
+                                                    <?php
+                                                        $query = $conn->query("SELECT * FROM jursmk");                
+                                                        while($row=$query->fetch_array()){
+                                                            echo'<option value="'.$row['id_jursmk'].'">'.$row['jurusan_smk'].'</option>';
+                                                        }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
