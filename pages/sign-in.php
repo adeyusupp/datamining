@@ -35,7 +35,8 @@ session_start();
     <div class="login-box">
         <div class="logo">
             <a href="javascript:void(0);">Sistem<b> Data Mining</b></a>
-            <small>Sistem penunjang keputusan</small>
+            <small>Penentuan Jurusan  Calon Mahasiswa Lulusan SMK Menggunakan Metode K-Nearest Neighbor Classifier Pada Universitas Gunadarma.
+</small>
         </div>
         <div class="card">
             <div class="body">
@@ -79,7 +80,7 @@ session_start();
                     }
                 ?>
 				<form id="sign_in" method="POST">
-                    <div class="msg">Sign in to start your session</div>                    
+                    <div class="msg">Login Kedalam Sistem</div>                    
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
@@ -98,7 +99,7 @@ session_start();
                     </div>
                     <div class="row">
                         <div class="col-xs-8 p-t-5">
-                            <a href="sign-up.php">Register Now!</a>
+                           
                         </div>
                         <div class="col-xs-4">
                         	<input class="btn btn-block bg-pink waves-effect" type="submit" name="login" value="SIGN IN">

@@ -8,7 +8,7 @@ require_once('../conf/session.php');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Data Training | </title>
+    <title>Data Test | </title>
     <!-- Favicon-->
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
 
@@ -103,14 +103,14 @@ require_once('../conf/session.php');
                             <span>Home</span>
                         </a>
                     </li>
-                    <li class="active">
-                        <a href="./">
+                    <li>
+                        <a href="../dtraining">
                             <i class="material-icons">layers</i>
                             <span>Data Training</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="../dtest">
+                    <li class="active">
+                        <a href="./">
                             <i class="material-icons">layers</i>
                             <span>Data Test</span>
                         </a>
@@ -147,17 +147,15 @@ require_once('../conf/session.php');
 
    <section class="content">
         <div class="container-fluid">
-            <!-- Table Data Training-->
+            <!-- Table Data Test-->
             <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">            
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Data Training
-                            </h2>  
-                            <div class="header-button">
-                                <a class="btn bg-blue waves-effect" href="addtraining">Tambah Data</a>
-                            </div>                                     
+                                Data Test
+                            </h2>    
+                            <small>Tabel hasil dari data test yang telah dihitung.</small>                                
                         </div>
                         <div class="body">
                             <table class="table table-bordered table-striped table-hover dataTable js-exportable">
@@ -187,12 +185,12 @@ require_once('../conf/session.php');
                                 <tbody>
                                 <?php
                                     $no = 1;
-                                    $query = $conn->prepare('SELECT * FROM dtraining,jursmk,juruniv WHERE dtraining.jurusan=jursmk.id_jursmk AND dtraining.hasil=juruniv.id_juruniv ORDER BY id desc');
+                                    $query = $conn->prepare('SELECT * FROM dtest,jursmk WHERE dtest.jurusan=jursmk.id_jursmk ORDER BY id_dtest desc');
                                     $query->execute();
                                     $result=$query->get_result();
                                         while($row=$result->fetch_array()){
                                            echo '
-                                           <tr id="dtrain'.$row['id'].'">
+                                           <tr id="dtest'.$row['id_dtest'].'">
                                             <td>'.$no++.'</td>
                                             <td>'.$row['nama'].'</td>
                                             <td>'.$row['sm1'].'</td>
@@ -206,10 +204,9 @@ require_once('../conf/session.php');
                                             <td>'.$row['mat'].'</td>
                                             <td>'.$row['komp'].'</td>                                            
                                             <td>'.$row['jurusan_smk'].'</td>                                            
-                                            <td>'.$row['jurusan_univ'].'</td>
+                                            <td>'.$row['hasil'].'</td>
                                             <td>
-                                            <a href="etraining?id='.$row['id'].'" class="btn btn-success btn-xs waves-effect"><i class="material-icons">edit</i></a>&nbsp;                                          
-                                            <button onclick="DeleteDtrain('.$row['id'].')" class="btn btn-danger btn-xs waves-effect"><i class="material-icons">delete</i></button>
+                                            <button onclick="DeleteDtest('.$row['id_dtest'].')" class="btn btn-danger btn-xs waves-effect"><i class="material-icons">delete</i></button>
                                             </td>
                                           </tr>
                                            ';

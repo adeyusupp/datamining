@@ -41,6 +41,69 @@ function showNotification(text) {
         });
 }
 
+function DeleteDtrain(id) {
+swal({
+        title: "Apakah anda yakin?",
+        text: "Data yang sudah dihapus tidak dapat dikembalikan!!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+       confirmButtonText: "Ya, Hapus Data!",
+        cancelButtonText: "Batal",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    }, function (isConfirm) {
+        if (isConfirm) {
+            $.ajax({
+                type:'POST',
+                url:'../include/deletedtrain.php',
+                data:'del_id='+id,
+                success: function(result){
+                    if(result==1){
+                        swal("Penghapusan Berhasil!", "Data anda berhasil dihapus.", "success");
+                        $("#dtrain"+id).fadeOut().remove();
+                        }else{
+                        swal("EROR", "Data Gagal Dihapus", "error");
+                        }
+                    }
+                })
+        } else {
+            swal("Dibatalkan", "Perintah penghapusan dibatalkan", "error");
+        }
+    });
+}
+function DeleteDtest(id) {
+swal({
+        title: "Apakah anda yakin?",
+        text: "Data yang sudah dihapus tidak dapat dikembalikan!!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+       confirmButtonText: "Ya, Hapus Data!",
+        cancelButtonText: "Batal",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    }, function (isConfirm) {
+        if (isConfirm) {
+            $.ajax({
+                type:'POST',
+                url:'../include/deletedtest.php',
+                data:'del_id='+id,
+                success: function(result){
+                    if(result==1){
+                        swal("Penghapusan Berhasil!", "Data anda berhasil dihapus.", "success");
+                        $("#dtest"+id).fadeOut().remove();
+                        }else{
+                        swal("EROR", "Data Gagal Dihapus", "error");
+                        }
+                    }
+                })
+        } else {
+            swal("Dibatalkan", "Perintah penghapusan dibatalkan", "error");
+        }
+    });
+}
+
 function DeleteJurSmk(id) {
 swal({
         title: "Apakah anda yakin?",
@@ -122,9 +185,11 @@ function UpdateJurSmk(){
         success: function(result){
             if(result==1){
                 document.getElementById("jursmk"+id).innerHTML = isi;
+                $("#jur"+id).val(isi);
                 $('#editsmk').hide();
                 $('.modal-backdrop').remove();
-                $('html, body').css('overflow', 'visible');   
+                $('html, body').css('overflow', 'visible');                   
+                $('html, body').removeClass('modal-open');                  
                 showNotification('Data Berhasil Diupdate'); 
             }else{
                 showNotification('Data Gagal Diupdate'); 
@@ -151,6 +216,7 @@ function UpdateJurUniv(){
             if(result==1){
                 document.getElementById("juruniv"+id).innerHTML = isi;
                 $('#edituniv').hide();
+                $("#jurunv"+id).val(isi);
                 $('.modal-backdrop').remove();
                 $('html, body').css('overflow', 'visible');  
                 showNotification('Data Berhasil Diupdate'); 

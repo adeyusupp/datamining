@@ -445,7 +445,7 @@ require_once('../conf/session.php');
     <!-- SweetAlert Plugin Js -->
     <script src="../../plugins/sweetalert/sweetalert.min.js"></script>
 
-     <!-- Bootstrap Notify Plugin Js -->
+    <!-- Bootstrap Notify Plugin Js -->
     <script src="../../plugins/bootstrap-notify/bootstrap-notify.js"></script>
 
     <!-- Custom Js -->

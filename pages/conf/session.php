@@ -15,7 +15,5 @@ $user_check = $_SESSION['username'];
     	}
 	if(!isset($_SESSION['username'])){
       header("location: ../sign-in");
-   }
-
- 	  
+   }  
 ?>
