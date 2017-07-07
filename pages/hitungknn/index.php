@@ -297,10 +297,10 @@ require_once('../conf/session.php');
                         $SQL2->execute();
 
                         //hapus data temporary
-                        $SQL2 = $conn->prepare('DELETE FROM tmp1');
+                        /*$SQL2 = $conn->prepare('DELETE FROM tmp1');
                         $SQL2->execute();
                         $SQL3 = $conn->prepare('DELETE FROM tmp2');
-                        $SQL3->execute();                    
+                        $SQL3->execute();  */                  
                     }                         
                     ?>
             <!-- Vertical Layout | With Floating Label -->
