@@ -8,7 +8,7 @@ require_once('../conf/session.php');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Data Training | </title>
+    <title>Data Training | <?php echo $title ?></title>
     <!-- Favicon-->
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
 
@@ -38,7 +38,6 @@ require_once('../conf/session.php');
     <link href="../../css/themes/all-themes.css" rel="stylesheet" />
 
     <script type="text/javascript">
-
 	/* ========== UPPSERCASE ==========*/
 	function hBesar(huruf) {
    		var kata = document.getElementById(huruf.id);
@@ -94,8 +93,6 @@ require_once('../conf/session.php');
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-                            <li role="seperator" class="divider"></li>
                             <li><a href="../logout.php"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
                     </div>
@@ -160,18 +157,6 @@ require_once('../conf/session.php');
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <?php
-
-                    $random1 = mt_rand(60,100);                    
-                    $random2 = mt_rand(60,100);
-                    $random3 = mt_rand(60,100);
-                    $random4 = mt_rand(60,100);
-                    $random5 = mt_rand(60,100);
-                    $random6 = mt_rand(60,100);
-                    $random7 = mt_rand(60,100);
-                    $random8 = mt_rand(60,100);
-                    $random9 = mt_rand(60,100);
-                    $random10 = mt_rand(60,100);
-
                     if(isset($_POST['simpan'])){
                         //deklarasi variabel
                         $nama=$_POST['nama'];
@@ -279,37 +264,37 @@ require_once('../conf/session.php');
                                         <h2 class="card-inside-title">Rata - Rata Nilai Semester</h2>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input value="<?php echo $random1; ?>" name="sm1" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="sm1" type="number" class="form-control" max="100" min="0" required>
                                                 <label class="form-label">Semester 1</label>
                                             </div>
                                         </div>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input value="<?php echo $random2; ?>" name="sm2" type="number"  class="form-control" max="100" min="0" required>
+                                                <input name="sm2" type="number"  class="form-control" max="100" min="0" required>
                                                 <label class="form-label">Semester 2</label>
                                             </div>
                                         </div>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input value="<?php echo $random3; ?>" name="sm3" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="sm3" type="number" class="form-control" max="100" min="0" required>
                                                 <label class="form-label">Semester 3</label>
                                             </div>
                                         </div>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input value="<?php echo $random4; ?>" name="sm4" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="sm4" type="number" class="form-control" max="100" min="0" required>
                                                 <label class="form-label">Semester 4</label>
                                             </div>
                                         </div>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input value="<?php echo $random5; ?>" name="sm5" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="sm5" type="number" class="form-control" max="100" min="0" required>
                                                 <label class="form-label">Semester 5</label>
                                             </div>
                                         </div>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input value="<?php echo $random6; ?>" name="sm6" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="sm6" type="number" class="form-control" max="100" min="0" required>
                                                 <label class="form-label">Semester 6</label>
                                             </div>
                                         </div>
@@ -318,25 +303,25 @@ require_once('../conf/session.php');
                                         <h2 class="card-inside-title">Nilai Ujian Nasional</h2>
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input value="<?php echo $random7; ?>" name="ind" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="ind" type="number" class="form-control" max="100" min="0" required>
                                                 <label class="form-label">Bahasa Indonesia</label>
                                             </div>
                                         </div>                                        
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input value="<?php echo $random8; ?>" name="ing" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="ing" type="number" class="form-control" max="100" min="0" required>
                                                 <label class="form-label">Bahasa Inggris</label>
                                             </div>
                                         </div>                                        
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input value="<?php echo $random9; ?>" name="mtk" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="mtk" type="number" class="form-control" max="100" min="0" required>
                                                 <label class="form-label">Matematika</label>
                                             </div>
                                         </div>                                        
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <input value="<?php echo $random10; ?>" name="kom" type="number" class="form-control" max="100" min="0" required>
+                                                <input name="kom" type="number" class="form-control" max="100" min="0" required>
                                                 <label class="form-label">Kompetensi</label>
                                             </div>
                                         </div>                                        

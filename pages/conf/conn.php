@@ -9,4 +9,6 @@
 	if($conn->connect_errno){
 		die("EROR : -> ".$conn->connect_error);
 	}
+
+	$title = "Sistem Data Mining";
 ?>

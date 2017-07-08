@@ -8,7 +8,7 @@ require_once('../conf/session.php');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Setting | </title>
+    <title>Setting | <?php echo $title ?></title>
     <!-- Favicon-->
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
 
@@ -27,6 +27,9 @@ require_once('../conf/session.php');
 
     <!-- Sweetalert Css -->
     <link href="../../plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+
+    <!-- Bootstrap Select Css -->
+    <link href="../../plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 
     <!-- JQuery DataTable Css -->
     <link href="../../plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
@@ -85,8 +88,6 @@ require_once('../conf/session.php');
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-                            <li role="seperator" class="divider"></li>
                             <li><a href="../logout"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
                     </div>
@@ -182,10 +183,28 @@ require_once('../conf/session.php');
                             }
                             ?>
                             <form id="add_data" method="POST">                                              
-                                <div class="form-group form-float">
-                                    <div class="form-line">
-                                         <input name="k" type="number" class="form-control" max="19" min="3" step="2" value="<?php echo $k2; ?>" required>
-                                         <label class="form-label">Nilai K</label>
+                                <div class="form-horizontal">
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label>Nilai K Saat Ini</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" value="<?php echo $k2; ?>" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="form-line">                                    
+                                         <select name="k" class="form-control show-tick" required>
+                                            <option value="">-- Silakan Pilih Untuk Update--</option>
+                                            <option value="3">3</option>
+                                            <option value="5">5</option>
+                                            <option value="7">7</option>
+                                            <option value="9">9</option>
+                                            <option value="11">11</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <input name="update" type="submit" class="btn btn-primary m-t-15 waves-effect" value="Update">

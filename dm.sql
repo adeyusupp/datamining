@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 06, 2017 at 09:43 AM
+-- Generation Time: Jul 07, 2017 at 10:59 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -42,6 +42,13 @@ CREATE TABLE `dtest` (
   `jurusan` int(11) NOT NULL,
   `hasil` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `dtest`
+--
+
+INSERT INTO `dtest` (`id_dtest`, `nama`, `sm1`, `sm2`, `sm3`, `sm4`, `sm5`, `sm6`, `bindo`, `bing`, `mat`, `komp`, `jurusan`, `hasil`) VALUES
+(1, 'fauzan nugraha', 67, 80, 90, 97, 87, 76, 99, 87, 96, 93, 6, 'Sistem Komputer');
 
 -- --------------------------------------------------------
 
@@ -232,7 +239,50 @@ INSERT INTO `dtraining` (`id`, `nama`, `sm1`, `sm2`, `sm3`, `sm4`, `sm5`, `sm6`,
 (159, 'HAFIDH ADINEGORO', 92, 79, 70, 82, 76, 93, 86, 71, 83, 98, 5, 9),
 (160, 'HAFIDZ AL AMMAR', 90, 84, 94, 92, 76, 60, 87, 80, 88, 93, 5, 9),
 (161, 'M RANGGA F', 79, 82, 84, 83, 92, 72, 62, 84, 94, 77, 5, 9),
-(162, 'M RIO RIZKY SAPUTRA', 63, 79, 93, 81, 100, 72, 74, 84, 93, 80, 6, 1);
+(162, 'M RIO RIZKY SAPUTRA', 63, 79, 93, 81, 100, 72, 74, 84, 93, 80, 6, 1),
+(163, 'QADI ABDUSSALAM', 79, 92, 83, 73, 91, 84, 77, 77, 84, 78, 6, 2),
+(164, 'AMARUL AKHYAR', 71, 69, 96, 66, 72, 80, 68, 82, 91, 95, 6, 2),
+(165, 'I GEDE SWASTIKA', 98, 60, 98, 73, 95, 65, 97, 94, 90, 66, 6, 2),
+(166, 'ABDUL FAQIH', 95, 78, 70, 94, 72, 79, 93, 84, 92, 96, 6, 1),
+(167, 'ABDUL GANI', 92, 77, 99, 62, 77, 80, 75, 72, 76, 68, 6, 1),
+(168, 'ABDUL GOPUR', 93, 70, 84, 79, 97, 85, 84, 78, 73, 76, 6, 1),
+(169, 'ABDUL RAFFIQURAHMAN', 63, 94, 76, 90, 87, 94, 83, 82, 63, 93, 6, 1),
+(170, 'BABAR PRAMUDYA', 95, 76, 66, 91, 92, 86, 95, 67, 89, 98, 6, 1),
+(171, 'HAFIDH NURHIDAYAT', 90, 77, 91, 73, 72, 60, 89, 88, 76, 69, 6, 6),
+(172, 'ULYA UMRI', 83, 83, 78, 98, 69, 87, 61, 86, 82, 85, 6, 6),
+(173, 'UMAR', 72, 74, 78, 97, 86, 77, 99, 91, 91, 85, 6, 6),
+(174, 'UMAR BUCHOR', 91, 77, 97, 94, 76, 88, 92, 85, 97, 85, 6, 6),
+(175, 'I MADE OKKY', 63, 79, 88, 67, 98, 87, 100, 84, 75, 75, 6, 7),
+(176, 'QIRMANULLOH', 85, 88, 87, 84, 94, 79, 76, 79, 97, 62, 6, 7),
+(177, 'QOHAR ADHI SUDIBYO', 62, 80, 80, 92, 60, 93, 93, 88, 84, 76, 6, 7),
+(178, 'OBAY SOLEHUDIN', 74, 92, 72, 63, 60, 90, 82, 84, 92, 99, 6, 7),
+(179, 'OCA AYU VITARITA', 63, 86, 73, 94, 81, 70, 90, 72, 74, 73, 6, 7),
+(180, 'ABDURRAHMAN', 76, 86, 95, 97, 94, 94, 74, 74, 100, 80, 6, 7),
+(181, 'ABDURRAHMAN HARIT', 75, 62, 97, 94, 94, 84, 88, 85, 74, 77, 6, 7),
+(182, 'ABED NEGO', 97, 94, 82, 87, 82, 63, 92, 72, 92, 72, 6, 7),
+(183, 'ABELA SUBANDA', 76, 64, 88, 83, 66, 96, 96, 82, 75, 75, 6, 7),
+(184, 'BACHRIAH FATWA DHINI', 65, 93, 93, 64, 98, 93, 71, 84, 81, 82, 6, 7),
+(185, 'BACHTIAR ARI WIBOWO', 86, 77, 84, 72, 85, 78, 62, 89, 81, 80, 6, 7),
+(186, 'BAGAS BIMANTARA', 78, 72, 60, 78, 93, 95, 99, 93, 82, 99, 6, 7),
+(187, 'BAGAS IRAWAN', 62, 65, 82, 87, 77, 92, 66, 100, 75, 72, 6, 7),
+(188, 'HAFID ALIFIANSYAH P', 76, 77, 61, 66, 69, 84, 74, 66, 97, 81, 6, 8),
+(189, 'HAFIDZ AMRULLOH', 79, 92, 69, 68, 62, 63, 95, 65, 92, 95, 6, 8),
+(190, 'UMAR FATAH', 97, 80, 63, 62, 76, 90, 68, 89, 86, 89, 6, 8),
+(191, 'UMI KASUM', 86, 86, 87, 99, 63, 84, 66, 97, 71, 98, 6, 8),
+(192, 'IBADARROHMAN', 66, 82, 64, 99, 96, 84, 100, 98, 92, 75, 6, 8),
+(193, 'IBENU K.A', 74, 89, 100, 73, 91, 77, 97, 63, 98, 96, 6, 8),
+(194, 'QOMARIYAH', 86, 94, 80, 97, 69, 69, 91, 94, 60, 87, 6, 8),
+(195, 'OCKY FIRGIAWAN', 70, 84, 73, 63, 61, 95, 94, 63, 93, 72, 6, 8),
+(196, 'OCTAVIANA', 75, 81, 76, 94, 64, 98, 72, 61, 95, 84, 6, 8),
+(197, 'ODHETA', 65, 66, 90, 91, 78, 79, 72, 71, 73, 74, 6, 9),
+(198, 'OEY WULAN SARI', 68, 99, 79, 82, 91, 66, 80, 77, 67, 97, 6, 9),
+(199, 'OGI ABDULLAH', 95, 63, 99, 89, 95, 78, 97, 99, 66, 76, 6, 9),
+(200, 'ABI PRIBADI', 99, 66, 65, 87, 68, 94, 69, 75, 92, 61, 6, 9),
+(201, 'ABI PRIBADI', 71, 98, 89, 79, 60, 89, 64, 73, 95, 63, 6, 9),
+(202, 'BAGAS KAWARASAN', 60, 84, 86, 87, 96, 90, 82, 73, 100, 95, 6, 9),
+(203, 'HAFIDZAH', 100, 63, 77, 95, 64, 67, 97, 68, 69, 84, 6, 9),
+(204, 'OKI NUGRAHA', 71, 76, 100, 77, 69, 66, 89, 84, 78, 85, 6, 9),
+(205, 'ZULFADRI', 62, 70, 92, 62, 88, 80, 77, 71, 62, 72, 6, 6);
 
 -- --------------------------------------------------------
 
@@ -309,6 +359,56 @@ CREATE TABLE `tmp1` (
   `hasil` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tmp1`
+--
+
+INSERT INTO `tmp1` (`id`, `nama`, `distance`, `hasil`) VALUES
+(1, 'M RIO RIZKY SAPUTRA', 35.7631, '1'),
+(2, 'QADI ABDUSSALAM', 44.1135, '2'),
+(3, 'AMARUL AKHYAR', 48.8876, '2'),
+(4, 'I GEDE SWASTIKA', 54.8088, '2'),
+(5, 'ABDUL FAQIH', 38.7427, '1'),
+(6, 'ABDUL GANI', 62.3057, '1'),
+(7, 'ABDUL GOPUR', 49.4065, '1'),
+(8, 'ABDUL RAFFIQURAHMAN', 46.3789, '1'),
+(9, 'BABAR PRAMUDYA', 45.0222, '1'),
+(10, 'HAFIDH NURHIDAYAT', 51.7011, '6'),
+(11, 'ULYA UMRI', 50.5964, '6'),
+(12, 'UMAR', 17.6635, '6'),
+(13, 'UMAR BUCHOR', 32.0312, '6'),
+(14, 'I MADE OKKY', 44.0227, '7'),
+(15, 'QIRMANULLOH', 46.6798, '7'),
+(16, 'QOHAR ADHI SUDIBYO', 40.4722, '7'),
+(17, 'OBAY SOLEHUDIN', 54.2955, '7'),
+(18, 'OCA AYU VITARITA', 40.1497, '7'),
+(19, 'ABDURRAHMAN', 38.6523, '7'),
+(20, 'ABDURRAHMAN HARIT', 37.7359, '7'),
+(21, 'ABED NEGO', 46.744, '7'),
+(22, 'ABELA SUBANDA', 46.6583, '7'),
+(23, 'BACHRIAH FATWA DHINI', 53.1037, '7'),
+(24, 'BACHTIAR ARI WIBOWO', 52.9717, '7'),
+(25, 'BAGAS BIMANTARA', 45.9456, '7'),
+(26, 'BAGAS IRAWAN', 53.9444, '7'),
+(27, 'HAFID ALIFIANSYAH P', 59.0847, '8'),
+(28, 'HAFIDZ AMRULLOH', 53.7029, '8'),
+(29, 'UMAR FATAH', 65.2074, '8'),
+(30, 'UMI KASUM', 53.7494, '8'),
+(31, 'IBADARROHMAN', 35.9444, '8'),
+(32, 'IBENU K.A', 37.6298, '8'),
+(33, 'QOMARIYAH', 49.7494, '8'),
+(34, 'OCKY FIRGIAWAN', 59.649, '8'),
+(35, 'OCTAVIANA', 52.6308, '8'),
+(36, 'ODHETA', 46.9148, '9'),
+(37, 'OEY WULAN SARI', 46.2817, '9'),
+(38, 'OGI ABDULLAH', 51.2152, '9'),
+(39, 'ABI PRIBADI', 68.6586, '9'),
+(40, 'ABI PRIBADI', 62.3298, '9'),
+(41, 'BAGAS KAWARASAN', 31.0322, '9'),
+(42, 'HAFIDZAH', 57.7581, '9'),
+(43, 'OKI NUGRAHA', 38.1182, '9'),
+(44, 'ZULFADRI', 60.8933, '6');
+
 -- --------------------------------------------------------
 
 --
@@ -320,6 +420,17 @@ CREATE TABLE `tmp2` (
   `distance` float NOT NULL,
   `hasil` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tmp2`
+--
+
+INSERT INTO `tmp2` (`id`, `distance`, `hasil`) VALUES
+(1, 17.6635, '6'),
+(2, 31.0322, '9'),
+(3, 32.0312, '6'),
+(4, 35.7631, '1'),
+(5, 35.9444, '8');
 
 -- --------------------------------------------------------
 
@@ -405,12 +516,12 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `dtest`
 --
 ALTER TABLE `dtest`
-  MODIFY `id_dtest` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_dtest` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `dtraining`
 --
 ALTER TABLE `dtraining`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=206;
 --
 -- AUTO_INCREMENT for table `jursmk`
 --
@@ -430,12 +541,12 @@ ALTER TABLE `setting`
 -- AUTO_INCREMENT for table `tmp1`
 --
 ALTER TABLE `tmp1`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT for table `tmp2`
 --
 ALTER TABLE `tmp2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -8,7 +8,7 @@ require_once('../conf/session.php');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Data Training | </title>
+    <title>Data Training | <?php echo $title ?></title>
     <!-- Favicon-->
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
 
@@ -36,6 +36,15 @@ require_once('../conf/session.php');
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="../../css/themes/all-themes.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+	/* ========== UPPSERCASE ==========*/
+	function hBesar(huruf) {
+   		var kata = document.getElementById(huruf.id);
+   		kata.value= kata.value.toUpperCase();
+	}
+	/* ========== UPPERCASE END ==========*/
+    </script>
 </head>
 
 <body class="theme-red">
@@ -84,8 +93,6 @@ require_once('../conf/session.php');
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-                            <li role="seperator" class="divider"></li>
                             <li><a href="../logout.php"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
                     </div>
@@ -206,7 +213,7 @@ require_once('../conf/session.php');
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama" value="<?php echo $row['nama']; ?>" required>
+                                                <input id="nama" onkeyup="hBesar(this)" onkeydown="hBesar(this)" onkeypress="hBesar(this)" type="text" class="form-control" placeholder="Nama Lengkap" name="nama" value="<?php echo $row['nama']; ?>" required>
                                             </div>
                                         </div>
                                     </div>

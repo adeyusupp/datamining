@@ -13,6 +13,16 @@ $user_check = $_SESSION['username'];
 	        $name = $row['name'];
 	        $email = $row['email'];
     	}
+    $query1 = $conn->prepare('SELECT * FROM dtraining');
+    $query1->execute();
+    $result1=$query1->get_result();
+	$jumdtrain=$result1->num_rows;
+
+    $query2 = $conn->prepare('SELECT * FROM dtest');
+    $query2->execute();
+    $result2=$query2->get_result();
+	$jumdtest=$result2->num_rows;
+	    
 	if(!isset($_SESSION['username'])){
       header('Location: sign-in');
    }
@@ -24,7 +34,7 @@ $user_check = $_SESSION['username'];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Welcome To | </title>
+    <title>Welcome To | <?php echo $title ?></title>
     <!-- Favicon-->
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
 
@@ -41,11 +51,12 @@ $user_check = $_SESSION['username'];
     <!-- Animation Css -->
     <link href="../plugins/animate-css/animate.css" rel="stylesheet" />
 
-    <!-- Morris Chart Css-->
-    <link href="../plugins/morrisjs/morris.css" rel="stylesheet" />
 
     <!-- Custom Css -->
     <link href="../css/style.css" rel="stylesheet">
+
+    <!-- JQuery DataTable Css -->
+    <link href="../plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="../css/themes/all-themes.css" rel="stylesheet" />
@@ -164,52 +175,77 @@ $user_check = $_SESSION['username'];
             </div>
             <!-- Widgets -->
             <div class="row clearfix">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="info-box bg-pink hover-expand-effect">
                         <div class="icon">
-                            <i class="material-icons">playlist_add_check</i>
+                            <i class="material-icons">assignment_turned_in</i>
                         </div>
                         <div class="content">
-                            <div class="text">NEW TASKS</div>
-                            <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                            <div class="text">Jumlah Data Training</div>
+                            <div class="number count-to" data-from="0" data-to="<?php echo $jumdtrain; ?>" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="info-box bg-cyan hover-expand-effect">
                         <div class="icon">
-                            <i class="material-icons">help</i>
+                            <i class="material-icons">assignment</i>
                         </div>
                         <div class="content">
-                            <div class="text">NEW TICKETS</div>
-                            <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="text">Jumlah Data Test</div>
+                            <div class="number count-to" data-from="0" data-to="<?php echo $jumdtest; ?>" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-green hover-expand-effect">
-                        <div class="icon">
-                            <i class="material-icons">forum</i>
+                
+            </div>
+            <!-- #END# Widgets -->
+        </div>
+        <!-- Table Data Training-->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Data Jumlah Siswa Setiap Jurusan
+                            </h2>                
+                            <small>Data jumlah siswa setiap jurusan berdasarkan jurusan smk dan jurusan pada universitas</small>                  
                         </div>
-                        <div class="content">
-                            <div class="text">NEW COMMENTS</div>
-                            <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-orange hover-expand-effect">
-                        <div class="icon">
-                            <i class="material-icons">person_add</i>
-                        </div>
-                        <div class="content">
-                            <div class="text">NEW VISITORS</div>
-                            <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
+                        <div class="body">
+                            <table class="table table-bordered table-striped table-hover dataTable js-basic-example">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Jurusan SMK</th>
+                                        <th>Jurusan Universitas</th>
+                                        <th>Jumlah Siswa</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   <?php
+                                    $no = 1;
+                                    $query = $conn->prepare('SELECT jurusan_smk , jurusan_univ , COUNT(hasil) AS count FROM dtraining,jursmk,juruniv WHERE (dtraining.jurusan=jursmk.id_jursmk) AND (dtraining.hasil=juruniv.id_juruniv) GROUP BY jurusan, hasil;');
+                                    $query->execute();
+                                    $result=$query->get_result();
+                                        while($row=$result->fetch_array()){
+                                           echo '
+                                            <tr">
+                                                <td>'.$no++.'</td>
+                                                <td>'.$row['jurusan_smk'].'</td>
+                                                <td>'.$row['jurusan_univ'].'</td>
+                                                <td>'.$row['count'].'</td>                                   
+                                            </tr>
+                                           ';
+                                        }
+                                ?>  
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- #END# Widgets -->
+            <!-- #END# Table Data Training -->
         </div>
     </section>
 
@@ -230,26 +266,15 @@ $user_check = $_SESSION['username'];
 
     <!-- Jquery CountTo Plugin Js -->
     <script src="../plugins/jquery-countto/jquery.countTo.js"></script>
-
-    <!-- Morris Plugin Js -->
-    <script src="../plugins/raphael/raphael.min.js"></script>
-    <script src="../plugins/morrisjs/morris.js"></script>
-
-    <!-- ChartJs -->
-    <script src="../plugins/chartjs/Chart.bundle.js"></script>
-
-    <!-- Flot Charts Plugin Js -->
-    <script src="../plugins/flot-charts/jquery.flot.js"></script>
-    <script src="../plugins/flot-charts/jquery.flot.resize.js"></script>
-    <script src="../plugins/flot-charts/jquery.flot.pie.js"></script>
-    <script src="../plugins/flot-charts/jquery.flot.categories.js"></script>
-    <script src="../plugins/flot-charts/jquery.flot.time.js"></script>
-
-    <!-- Sparkline Chart Plugin Js -->
-    <script src="../plugins/jquery-sparkline/jquery.sparkline.js"></script>
+    
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="../plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="../plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="../plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
     
     <!-- Custom Js -->
     <script src="../js/admin.js"></script>
+    <script src="../js/pages/tables/jquery-datatable.js"></script>
     <script src="../js/pages/index.js"></script>
 
     <!-- Demo Js -->
